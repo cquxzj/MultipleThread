@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int mSleepTime = 500;
     private static final String TAG = "MainActivity";
     private ProgressBar mProgressbar;
-    private Handler hanlder=new Handler(){
+    private Handler mHanlder =new Handler(){
         @Override
         public void handleMessage(Message msg) {
             Log.d(TAG, "handleMessage: ");
@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
                     int progress=(int)msg.obj;
                     mProgressbar.setProgress(progress);
                     break;
+                case 2:
+                    mImageView.setImageBitmap((Bitmap)msg.obj);
+                    mProgressbar.setVisibility(View.INVISIBLE);
                 default:break;
             }
 
@@ -53,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                // loadImage();
-              
                 new LoadImageClass().execute("aaa","bbb");
             }
         });
@@ -73,12 +75,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Log.d(TAG, "run: ");
-                        Message msg=new Message();
+                        Message msg= mHanlder.obtainMessage();
                         msg.what=0;
-                        hanlder.sendMessage(msg);
+                        mHanlder.sendMessage(msg);
 
                         for(int i=1;i<11;i++){
-                            Message msg2=new Message();
+                            Message msg2= mHanlder.obtainMessage();
                             try {
                                 Thread.sleep(1000);
                             } catch (InterruptedException e) {
@@ -86,8 +88,15 @@ public class MainActivity extends AppCompatActivity {
                             }
                             msg2.what=1;
                             msg2.obj=i*10;
-                            hanlder.sendMessage(msg2);
+                            mHanlder.sendMessage(msg2);
                         }
+
+                        Message msg3= mHanlder.obtainMessage();
+                        Bitmap bmp=BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+                        msg3.what=2;
+                        msg3.obj=bmp;
+                        mHanlder.sendMessage(msg3);
+
                     }
                 }).start();
             }
@@ -110,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }).start();
-
     }
 
     private void sleep() {
