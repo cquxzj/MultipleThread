@@ -21,16 +21,11 @@
         android:id="@+id/activity_main_load_image_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Load Image"/>
+        android:text="AsycnTask方式"/>
     <Button
         android:id="@+id/activity_main_handler_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Handle处理"
+        android:text="Handle方式"
         />
-    <Button
-        android:id="@+id/activity_main_show_toast_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Show toast"/>
 </LinearLayout>

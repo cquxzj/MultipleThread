@@ -12,12 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView mImageView;
     private Button mLoadImageButton;
-    private Button mShowToastButton;
     private Button mHandlerButton;
     private static final int mSleepTime = 500;
     private static final String TAG = "MainActivity";
@@ -48,22 +46,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mImageView = (ImageView) findViewById(R.id.activity_main_image_view);
         mLoadImageButton = (Button) findViewById(R.id.activity_main_load_image_button);
-        mShowToastButton = (Button) findViewById(R.id.activity_main_show_toast_button);
         mHandlerButton= (Button) findViewById( R.id.activity_main_handler_button);
         mProgressbar= (ProgressBar) findViewById(R.id.progressBar);
 
         mLoadImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // loadImage();
-                new LoadImageClass().execute("aaa","bbb");
-            }
-        });
-
-        mShowToastButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "hello image", Toast.LENGTH_SHORT).show();
+                new LoadImageClass().execute();
             }
         });
 
@@ -103,24 +92,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadImage() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-                for (int i = 1; i < 11; i++) {
-                    sleep();
-                }
-                mImageView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mImageView.setImageBitmap(bitmap);
-                    }
-                });
-            }
-        }).start();
-    }
-
     private void sleep() {
         try {
             Thread.sleep(mSleepTime);
@@ -137,13 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            Log.d(TAG, "doInBackground: "+params[0]+","+params[1]);
             for(int i=1;i<11;i++){
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                sleep();
                 publishProgress(i*10);
             }
             Bitmap bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
