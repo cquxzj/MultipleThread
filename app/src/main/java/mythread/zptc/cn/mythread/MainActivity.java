@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mImageView;
     private Button mLoadImageButton;
     private Button mHandlerButton;
-    private static final int mSleepTime = 500;
+    private static final int mSleepTime = 1000;
     private static final String TAG = "MainActivity";
     private ProgressBar mProgressbar;
     private Handler mHanlder =new Handler(){
